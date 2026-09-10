@@ -5,7 +5,8 @@ One-shot converter: AMIGO_Checklist_V22_*.xlsx -> Obsidian vault notes.
 Run once to seed the vault. After that the VAULT is the source of truth;
 re-running will overwrite generated notes (checklist/, runbook/, components/,
 procedures/, _meta/) but never touches hand-maintained notes (rules/, versions/,
-paths/, CLAUDE.md, README.md).
+paths/, CLAUDE.md, README.md). Hand-added frontmatter fields listed in
+PRESERVED_FIELDS are carried over from an existing checklist note on re-seed.
 
 Usage: python3 tools/convert_xlsx.py <xlsx> <vault_root>
 """
@@ -33,6 +34,24 @@ def write(path, text):
     os.makedirs(os.path.dirname(full), exist_ok=True)
     with open(full, "w", encoding="utf-8") as f:
         f.write(text)
+
+# hand-maintained frontmatter fields on generated checklist notes; carried over verbatim on re-seed
+PRESERVED_FIELDS = ["hcu_sources", "extractors"]
+
+def preserved_fields(path):
+    """Raw frontmatter lines (exact text, file order) for PRESERVED_FIELDS in an existing note, else []."""
+    full = os.path.join(ROOT, path)
+    if not os.path.exists(full): return []
+    with open(full, encoding="utf-8") as f:
+        lines = f.read().splitlines()
+    if not lines or lines[0].strip() != "---": return []
+    keep, cur = [], None
+    for line in lines[1:]:
+        if line.strip() == "---": break
+        m = re.match(r"^([A-Za-z0-9_-]+):", line)
+        if m: cur = m.group(1) if m.group(1) in PRESERVED_FIELDS else None  # new key; continuation lines keep cur
+        if cur: keep.append(line)
+    return keep
 
 source_map = []
 
@@ -145,8 +164,9 @@ def convert_checklist(sheet, comp, comp_label):
         tsa_opts = [o for s in q["tsa_opts"] for o in s]
         if tsa_opts: fm.append(f"tsa_answer_options: {yaml_list(sorted(set(tsa_opts)))}")
         fm += [f"blocking: {'true' if blocking else 'false'}",
-               f"related_rules: {yaml_list(rules)}", f"related_components: {yaml_list(comps)}",
-               f"status: {ov.get('status', 'active')}"]
+               f"related_rules: {yaml_list(rules)}", f"related_components: {yaml_list(comps)}"]
+        fm += preserved_fields(f"checklist/{comp}/{name}.md")  # hand-added fields survive a re-seed
+        fm += [f"status: {ov.get('status', 'active')}"]
         if "superseded_by" in ov: fm.append(f"superseded_by: {ov['superseded_by']}")
         fm += [f"source_sheet: {json.dumps(sheet.strip())}", f"source_row: {q['row']}", f"source_file: {SRC}", "---", ""]
         body = [f"# {q['question'].splitlines()[0]}", ""]
