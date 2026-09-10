@@ -14,3 +14,4 @@ type: meta
 | 5 | EM row 23 / Server row 20 | Job-count buckets duplicated with different spacing | Harmless |
 | 6 | Server V22 Upgrade row 44 | Duplicate of row 43 | Dropped by converter |
 | 7 | Vault | No 9.0.20.200 runbook for hop 1 of [[path-9019-to-9022]] | **Open — needs authoring** |
+| 8 | `_meta/hcu-sources-patch.md` | Example frontmatter block contains a `name:` line, so `tools/check_links.py` reports a name mismatch on the patch doc | Checker artifact, not a vault defect; ignore (its hcu-knowledge-graph links are dangling by design) |
