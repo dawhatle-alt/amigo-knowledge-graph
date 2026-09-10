@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: false
 related_rules: ["postgres-not-upgraded-in-place"]
 related_components: []
+hcu_sources: ["[[db-postgresql]]"]
+extractors: [X05]
 status: active
 source_sheet: "AMIGO Server Checklist V22"
 source_row: 42

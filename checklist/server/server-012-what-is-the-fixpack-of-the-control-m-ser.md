@@ -9,6 +9,8 @@ tsa_answer_options: ["Latest", "Not Latest"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: ["[[Server-Artifact-installed-versions]]"]
+extractors: [X01]
 status: active
 source_sheet: "AMIGO Server Checklist V22"
 source_row: 12

@@ -11,6 +11,8 @@ tsa_answer_options: ["Done"]
 blocking: true
 related_rules: ["amigo-scope"]
 related_components: []
+hcu_sources: []
+extractors: []
 status: active
 source_sheet: "AMIGO Server Checklist V22"
 source_row: 45

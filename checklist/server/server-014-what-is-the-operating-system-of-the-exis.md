@@ -9,6 +9,8 @@ tsa_answer_options: ["Supported", "Unsupported"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: ["[[OS-Hardware]]"]
+extractors: [X04]
 status: active
 source_sheet: "AMIGO Server Checklist V22"
 source_row: 14

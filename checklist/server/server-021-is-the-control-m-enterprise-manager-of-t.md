@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: true
 related_rules: ["compatibility-mode-irreversible", "em-before-server"]
 related_components: []
+hcu_sources: ["[[Artifact-check_config_report-json]]", "[[Server-Artifact-installed-versions]]"]
+extractors: [X02, X01]
 status: active
 source_sheet: "AMIGO Server Checklist V22"
 source_row: 21

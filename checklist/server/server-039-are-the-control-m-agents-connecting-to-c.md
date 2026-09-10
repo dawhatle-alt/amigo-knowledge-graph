@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: ["[[Server-AG_TBL_CTM]]", "[[Server-CNF_INFO-SSL]]"]
+extractors: [X25]
 status: active
 source_sheet: "AMIGO Server Checklist V22"
 source_row: 39

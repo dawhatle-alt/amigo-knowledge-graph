@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: []
+extractors: [RUN-ctmsetown, GAP-ctmsetown]
 status: active
 source_sheet: "AMIGO Server Checklist V22"
 source_row: 24

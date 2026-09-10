@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: true
 related_rules: ["amigo-scope"]
 related_components: []
+hcu_sources: []
+extractors: [X28, GAP-cm-inventory]
 status: active
 source_sheet: "AMIGO Server Checklist V22"
 source_row: 22
