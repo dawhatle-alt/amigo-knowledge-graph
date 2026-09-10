@@ -11,7 +11,7 @@ runbook/      phase notes + one note per topology variant (em/, server/)
 components/   add-on components (BIM, AAPI, MFT, ...) with KA references
 procedures/   TSA case-handling procedure
 skill/        SKILL.md addendum + loader for the upgrade-advisor skill
-tools/        one-shot xlsx converter (seed only — vault is master)
+tools/        xlsx converter (seed only — vault is master), link checker, coverage report, vault loader
 _meta/        source-row map, known issues
 ```
 
@@ -30,3 +30,11 @@ Re-running overwrites generated folders. Do not re-run over hand-edited notes.
 ```
 python3 tools/check_links.py .
 ```
+
+## Coverage report
+
+```
+python3 tools/coverage_report.py
+```
+
+Rolls up `hcu_sources` / `extractors` across active checklist notes into COVERED / PARTIAL / GAP classes, the GAP collect list, and the extractor index. Add `--json` for machine-readable output. Exits 1 if any active checklist note is missing either field.

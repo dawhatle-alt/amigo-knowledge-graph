@@ -12,6 +12,9 @@ usage: vault_loader.py --vault PATH --source 9.0.21 [--target 9.0.22]
 """
 import argparse, glob, os, re, sys
 
+# Windows consoles default to cp1252; notes contain non-ASCII (e.g. ≥), so force UTF-8 output.
+if hasattr(sys.stdout, "reconfigure"): sys.stdout.reconfigure(encoding="utf-8")
+
 def fm(path):
     t = open(path, encoding="utf-8").read()
     m = re.match(r"---\n(.*?)\n---", t, re.S)
