@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: true
 related_rules: ["amigo-scope"]
 related_components: ["aapi"]
+hcu_sources: ["[[EM-AAPI]]"]
+extractors: [X20]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 44

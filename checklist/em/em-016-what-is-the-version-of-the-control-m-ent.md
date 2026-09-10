@@ -9,6 +9,8 @@ tsa_answer_options: ["Supported", "Unsupported"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: []
+extractors: []
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 16

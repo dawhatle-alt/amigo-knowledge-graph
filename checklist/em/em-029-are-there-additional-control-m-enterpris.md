@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: false
 related_rules: []
 related_components: ["aapi", "application-integrator", "bim", "forecast", "mft", "self-service", "wcm", "workflow-insights", "workload-archiving"]
+hcu_sources: ["[[EM-Services]]"]
+extractors: [X21]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 29

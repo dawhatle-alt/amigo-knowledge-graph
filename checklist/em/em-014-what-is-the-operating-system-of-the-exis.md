@@ -8,6 +8,8 @@ answer_options: ["UNIX", "Linux", "Windows"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: ["[[OS-Hardware]]"]
+extractors: [X04]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 14

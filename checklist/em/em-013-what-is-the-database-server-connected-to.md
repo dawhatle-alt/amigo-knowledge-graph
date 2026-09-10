@@ -8,6 +8,8 @@ answer_options: ["Oracle (Local)", "Oracle (Remote)", "MSSQL(Local)", "MSSQL(Rem
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: ["[[db-postgresql]]", "[[Server-db-oracle]]"]
+extractors: [X05]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 13

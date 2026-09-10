@@ -11,6 +11,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: ["[[Server-Artifact-installed-versions]]"]
+extractors: [X01, X02]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 27

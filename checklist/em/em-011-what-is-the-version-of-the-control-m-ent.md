@@ -9,6 +9,8 @@ tsa_answer_options: ["Supported", "Unsupported"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: ["[[Artifact-check_config_report-json]]"]
+extractors: [X02]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 11

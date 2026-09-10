@@ -8,6 +8,8 @@ answer_options: ["Same", "Different"]
 blocking: true
 related_rules: ["amigo-scope"]
 related_components: []
+hcu_sources: []
+extractors: []
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 25

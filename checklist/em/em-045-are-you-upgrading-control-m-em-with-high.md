@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: false
 related_rules: ["ha-distributed-upgrade-order"]
 related_components: []
+hcu_sources: ["[[EM-ini]]"]
+extractors: [X07]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 45

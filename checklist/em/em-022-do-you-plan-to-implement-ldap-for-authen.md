@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: ["[[EM-LDAP]]"]
+extractors: [X17]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 22

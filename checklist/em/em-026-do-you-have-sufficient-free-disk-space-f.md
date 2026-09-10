@@ -9,6 +9,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: false
 related_rules: []
 related_components: []
+hcu_sources: ["[[OS-Disk]]"]
+extractors: [X12]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 26

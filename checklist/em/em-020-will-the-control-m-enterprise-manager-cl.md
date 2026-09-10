@@ -11,6 +11,8 @@ tsa_answer_options: ["Advised", "Not Applicable"]
 blocking: false
 related_rules: ["compatibility-mode-irreversible"]
 related_components: []
+hcu_sources: []
+extractors: [GAP-em-clients]
 status: active
 source_sheet: "AMIGO EM Checklist V22"
 source_row: 20
