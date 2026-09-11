@@ -13,6 +13,9 @@ source_file: AMIGO_Checklist_V22_20251030.xlsx
 
 # Control-M/Enterprise Manager upgrade sequence — Distributed
 
+> [!warning] Stale step — "Upgrade ... Postgres Database Server to 11.5" (known-issues #2)
+> PostgreSQL is **not** upgraded during the in-place Control-M upgrade; for BMC-supplied PostgreSQL the target is **15.3** as a separate post-upgrade step. Rule [[postgres-not-upgraded-in-place]] overrides this source text.
+
 _For Control-M/Enterprise Manager with Distributed (Primary > Distributed)_
 
 > [!note] Note: If Control-M Workload Archiving is installed on Distributed node, it will be upgraded automatically)

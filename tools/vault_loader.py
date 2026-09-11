@@ -55,8 +55,21 @@ if not os.path.exists(path_note):
     emit(os.path.join(ROOT, "paths", "paths-index.md"), seen)
     sys.exit(2)
 emit(path_note, seen)
-for v in {a.source, a.target}:
+
+# hops: load every version note on the path (source, intermediates, target) and warn when a
+# hop's target has no runbook in this vault (e.g. 9.0.19 -> 9.0.20.200 -> 9.0.22 has none for hop 1)
+pmeta, _ = fm(path_note)
+hops = [re.findall(r"\d+(?:\.\d+)+", h) for h in pmeta.get("hops", "").split(",")]
+hops = [h for h in hops if len(h) == 2] or [[a.source, a.target]]
+for v in dict.fromkeys([a.source] + [x for h in hops for x in h] + [a.target]):
     emit(os.path.join(ROOT, "versions", f"v-{v.replace('.', '-')}.md"), seen)
+runbook_targets = sorted({fm(r)[0].get("target_version", "") for r in glob.glob(os.path.join(ROOT, "runbook", "*", "*.md"))} - {""})
+for i, (h_src, h_tgt) in enumerate(hops, 1):
+    if h_tgt not in runbook_targets:
+        msg = (f"WARNING: hop {i} of {len(hops)} ({h_src} -> {h_tgt}) has NO runbook in this vault "
+               f"(runbooks exist only for target {', '.join(runbook_targets)}). Verify {h_tgt} requirements against BMC docs; "
+               f"see the path note and _meta/known-issues.md. Treat each hop as a separate case.")
+        print(f"\n<!-- {msg} -->"); print(msg, file=sys.stderr)
 
 if a.phase in ("interview", "all"):
     for c in comps:
