@@ -6,7 +6,8 @@ Run once to seed the vault. After that the VAULT is the source of truth;
 re-running will overwrite generated notes (checklist/, runbook/, components/,
 procedures/, _meta/) but never touches hand-maintained notes (rules/, versions/,
 paths/, CLAUDE.md, README.md). Hand-added frontmatter fields listed in
-PRESERVED_FIELDS are carried over from an existing checklist note on re-seed.
+PRESERVED_FIELDS are carried over from an existing checklist note on re-seed, and
+hand-added `> [!warning]` callouts in runbook notes are carried over verbatim.
 
 Usage: python3 tools/convert_xlsx.py <xlsx> <vault_root>
 """
@@ -52,6 +53,27 @@ def preserved_fields(path):
         if m: cur = m.group(1) if m.group(1) in PRESERVED_FIELDS else None  # new key; continuation lines keep cur
         if cur: keep.append(line)
     return keep
+
+# callout types (Obsidian `> [!type]`) that humans add to runbook notes to flag stale text (CLAUDE.md rule 5)
+PRESERVED_CALLOUTS = ["warning"]
+
+def preserved_callouts(path):
+    """Hand-added callout blocks (exact lines, file order, each followed by a blank line) from an existing note's body."""
+    full = os.path.join(ROOT, path)
+    if not os.path.exists(full): return []
+    with open(full, encoding="utf-8") as f:
+        lines = f.read().splitlines()
+    body = lines
+    if lines and lines[0].strip() == "---" and "---" in lines[1:]:
+        body = lines[lines.index("---", 1) + 1:]
+    out, block = [], []
+    for line in body + [""]:
+        if block:
+            if line.startswith(">"): block.append(line); continue
+            out += block + [""]; block = []
+        m = re.match(r"^>\s*\[!(\w+)\]", line)
+        if m and m.group(1).lower() in PRESERVED_CALLOUTS: block = [line]
+    return out
 
 source_map = []
 
@@ -260,6 +282,7 @@ def write_runbook(sheet, comp, comp_label):
               f"phase_title: {json.dumps(p['title'])}", "target_version: 9.0.22",
               f"related_rules: {yaml_list(rules)}", f"source_sheet: {json.dumps(sheet)}", f"source_row: {p['row']}",
               f"source_file: {SRC}", "---", "", f"# {comp_label} — Phase {i}: {p['title']}", ""]
+        fm += preserved_callouts(f"runbook/{comp}/{pname}.md")  # hand-added [!warning] callouts survive a re-seed
         body = []
         for it in p["items"]:
             body.append(f"- [ ] {it['text'].replace(chr(10), '  ' + chr(10) + '      ')}")
@@ -274,7 +297,9 @@ def write_runbook(sheet, comp, comp_label):
                        f"topology: {t['key']}", "target_version: 9.0.22", f"parent_phase: {pname}",
                        f"related_rules: {yaml_list(['ha-distributed-upgrade-order', 'postgres-not-upgraded-in-place'] if t['key'] != 'standalone' else ['postgres-not-upgraded-in-place'])}",
                        f"source_sheet: {json.dumps(sheet)}", f"source_row: {t['row']}", f"source_file: {SRC}", "---", "",
-                       f"# {comp_label} upgrade sequence — {t['label']}", "", f"_{t['heading']}_", ""]
+                       f"# {comp_label} upgrade sequence — {t['label']}", ""]
+                tfm += preserved_callouts(f"runbook/{comp}/{tname}.md")  # hand-added [!warning] callouts survive a re-seed
+                tfm += [f"_{t['heading']}_", ""]
                 if t["notes"]: tfm += [f"> [!note] {n}" for n in t["notes"]] + [""]
                 tfm += ["## Steps", ""] + [f"{n}. {s}" for n, s in enumerate(t["steps"], 1)] + ["",
                         "## Related", "", f"- Phase: [[{pname}]]", "- Rule: [[ha-distributed-upgrade-order]]" if t["key"] != "standalone" else "",
